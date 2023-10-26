@@ -9,7 +9,7 @@ docker image ls -a
 docker tag item-app:v1 ghcr.io/oktaprianto/item-app:v1
 
 # Login ke Docker Hub (atau GitHub Packages bila menerapkan saran keempat) via Terminal.
-echo $PASSWORD_DOCKER_HUB | docker login -u oktapria --password-stdin ghcr.io
+echo $CR_PAT | docker login ghcr.io -u oktaprianto --password-stdin ghcr.io
 
 # Mengunggah image ke Docker Hub (atau GitHub Packages bila menerapkan saran keempat).
 docker push ghcr.io/oktaprianto/item-app:v1
