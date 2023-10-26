@@ -1,0 +1,82 @@
+ook@MacBook-Pro a433-microservices % docker compose up
+[+] Running 14/14
+ ⠿ item-db Pulled                                                                                 125.0s
+   ⠿ 92473f7ef455 Pull complete                                                                    69.4s
+   ⠿ fb52bde70123 Pull complete                                                                    70.1s
+   ⠿ 64788f86be3f Pull complete                                                                    71.2s
+   ⠿ 33f6d5f2e001 Pull complete                                                                    71.7s
+   ⠿ 570e56656608 Pull complete                                                                    72.2s
+   ⠿ f518a872ab12 Pull complete                                                                    76.6s
+   ⠿ c9bdae151f64 Pull complete                                                                    78.5s
+   ⠿ b2c58da5f563 Pull complete                                                                    79.1s
+   ⠿ 2928038a6053 Pull complete                                                                    79.8s
+   ⠿ 29a16c1b79ab Pull complete                                                                    80.3s
+   ⠿ efec0f86077c Pull complete                                                                   114.8s
+   ⠿ 261a04726d31 Pull complete                                                                   119.5s
+   ⠿ 7c4062426e72 Pull complete                                                                   119.9s
+[+] Running 4/4
+ ⠿ Network a433-microservices_default       Created                                                 0.6s
+ ⠿ Volume "a433-microservices_app-db"       Created                                                 0.0s
+ ⠿ Container a433-microservices-item-db-1   Created                                                 0.5s
+ ⠿ Container a433-microservices-item-app-1  Created                                                 0.2s
+Attaching to a433-microservices-item-app-1, a433-microservices-item-db-1
+Error response from daemon: Ports are not available: exposing port TCP 0.0.0.0:80 -> 0.0.0.0:0: listen tcp 0.0.0.0:80: bind: address already in use
+ook@MacBook-Pro a433-microservices % sudo lsof -i :80
+
+Password:
+COMMAND PID USER   FD   TYPE            DEVICE SIZE/OFF NODE NAME
+httpd   115 root    4u  IPv6 0x247887f0e19c4ff      0t0  TCP *:http (LISTEN)
+httpd   297 _www    4u  IPv6 0x247887f0e19c4ff      0t0  TCP *:http (LISTEN)
+ook@MacBook-Pro a433-microservices % sudo launchctl unload /System/Library/LaunchDaemons/org.apache.httpd.plist
+
+/System/Library/LaunchDaemons/org.apache.httpd.plist: Operation now in progress
+ook@MacBook-Pro a433-microservices % sudo lsof -i :80
+
+ook@MacBook-Pro a433-microservices % docker-compose down
+
+[+] Running 3/3
+ ⠿ Container a433-microservices-item-app-1  Removed                                                 0.0s
+ ⠿ Container a433-microservices-item-db-1   Removed                                                 0.8s
+ ⠿ Network a433-microservices_default       Removed                                                 0.1s
+ook@MacBook-Pro a433-microservices % docker compose up
+[+] Running 3/3
+ ⠿ Network a433-microservices_default       Created                                                 0.1s
+ ⠿ Container a433-microservices-item-db-1   Created                                                 0.1s
+ ⠿ Container a433-microservices-item-app-1  Created                                                 0.2s
+Attaching to a433-microservices-item-app-1, a433-microservices-item-db-1
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten] MongoDB starting : pid=1 port=27017 dbpath=/data/db 64-bit host=99def543a97d
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten] db version v3.6.23
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten] git version: d352e6a4764659e0d0350ce77279de3c1f243e5c
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten] OpenSSL version: OpenSSL 1.0.2g  1 Mar 2016
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten] allocator: tcmalloc
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten] modules: none
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten] build environment:
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten]     distmod: ubuntu1604
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten]     distarch: x86_64
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten]     target_arch: x86_64
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.266+0000 I CONTROL  [initandlisten] options: { net: { bindIpAll: true } }
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.267+0000 I -        [initandlisten] Detected data files in /data/db created by the 'wiredTiger' storage engine, so setting the active storage engine to 'wiredTiger'.
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.267+0000 I STORAGE  [initandlisten] 
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.267+0000 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.267+0000 I STORAGE  [initandlisten] **          See http://dochub.mongodb.org/core/prodnotes-filesystem
+a433-microservices-item-db-1   | 2023-10-26T10:33:49.267+0000 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=1454M,cache_overflow=(file_max=0M),session_max=20000,eviction=(threads_min=4,threads_max=4),config_base=false,statistics=(fast),compatibility=(release="3.0",require_max="3.0"),log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),statistics_log=(wait=0),verbose=(recovery_progress),
+a433-microservices-item-app-1  | 
+a433-microservices-item-app-1  | > docker-software-delivery@1.0.0 start /app
+a433-microservices-item-app-1  | > node ./bin/www
+a433-microservices-item-app-1  | 
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.122+0000 I STORAGE  [initandlisten] WiredTiger message [1698316431:122833][1:0x7f92b3b26a40], txn-recover: Main recovery loop: starting at 1/22784
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.325+0000 I STORAGE  [initandlisten] WiredTiger message [1698316431:325151][1:0x7f92b3b26a40], txn-recover: Recovering log 1 through 2
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.462+0000 I STORAGE  [initandlisten] WiredTiger message [1698316431:462458][1:0x7f92b3b26a40], txn-recover: Recovering log 2 through 2
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.552+0000 I STORAGE  [initandlisten] WiredTiger message [1698316431:552952][1:0x7f92b3b26a40], txn-recover: Set global recovery timestamp: 0
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.583+0000 I CONTROL  [initandlisten] 
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.584+0000 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.585+0000 I CONTROL  [initandlisten] **          Read and write access to data and configuration is unrestricted.
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.585+0000 I CONTROL  [initandlisten] 
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.600+0000 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/data/db/diagnostic.data'
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.603+0000 I NETWORK  [initandlisten] listening via socket bound to 0.0.0.0
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.604+0000 I NETWORK  [initandlisten] listening via socket bound to /tmp/mongodb-27017.sock
+a433-microservices-item-db-1   | 2023-10-26T10:33:51.606+0000 I NETWORK  [initandlisten] waiting for connections on port 27017
+a433-microservices-item-app-1  | NODE_ENV: production
+a433-microservices-item-db-1   | 2023-10-26T10:33:52.175+0000 I NETWORK  [listener] connection accepted from 172.20.0.3:33860 #1 (1 connection now open)
+a433-microservices-item-db-1   | 2023-10-26T10:33:52.227+0000 I NETWORK  [conn1] received client metadata from 172.20.0.3:33860 conn1: { driver: { name: "nodejs", version: "2.2.36" }, os: { type: "Linux", name: "linux", architecture: "x64", version: "5.15.49-linuxkit" }, platform: "Node.js v14.21.3, LE, mongodb-core: 2.1.20" }
+a433-microservices-item-app-1  | Connected to database

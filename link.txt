@@ -1,0 +1,2 @@
+Github Repository: https://github.com/oktaprianto/a433-microservices.git
+Github Package Image: https://github.com/users/oktaprianto/packages/container/package/item-app
