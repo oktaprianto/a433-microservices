@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: StatefulSet
+
+# Mongo stateful set metadata
+metadata:
+  name: mongo
+
+  # Mongo labels; database tier
+  labels:
+    app: karsajobs
+    tier: database
+
+# Mongo stateful set specification
+spec:
+
+  # Specifying selector to match it's labels
+  selector:
+    matchLabels:
+      app: karsajobs
+      tier: database
+  
+  # Specifying which service
+  serviceName: mongo
+  replicas: 1
+  minReadySeconds: 10
+
+  # Mongo stateful set pod template
+  template:
+    metadata:
+
+      # Mongo pod labels; database tier
+      labels:
+        app: karsajobs
+        tier: database
+    
+    # Specifying Mongo pod's template specification
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: mongo
+
+        # Image from docker.io
+        image: mongo:latest
+
+        # Configuring Mongo pod's environment 
+        env:
+
+        # Mongo root username from secret
+        - name: MONGO_INITDB_ROOT_USERNAME_FILE
+          value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
+        
+        # Mongo root password from secret
+        - name: MONGO_INITDB_ROOT_PASSWORD_FILE
+          value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD
+
+        # Specifying Mongo port
+        ports:
+        - containerPort: 27017
+
+        # Specifying Mongo's volumes mount path
+        volumeMounts:
+        - name: mongo-persistent-storage
+          mountPath: /data/db
+        - name: mongo-config
+          mountPath: /config
+        - name: mongo-secret
+          mountPath: /etc/mongo-credentials
+      
+      # Specifying mongo's volumes
+      volumes:
+
+      # Persistent storage from Mongo's PVC
+      - name: mongo-persistent-storage
+        persistentVolumeClaim:
+          claimName: mongo-pv-claim
+
+      # Config from Mongo's ConfigMap
+      - name: mongo-config
+        configMap:
+          name: mongo-config
+          items:
+            - key: mongo.conf
+              path: mongo.conf
+        
+      # Secret from Mongo's Secret
+      - name: mongo-secret
+        secret:
+          secretName: mongo-secret

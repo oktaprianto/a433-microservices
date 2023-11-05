@@ -1,0 +1,54 @@
+NAME                                                     READY   STATUS    RESTARTS        AGE
+pod/grafana-5c8b978cf7-l6mn9                             1/1     Running   0               37m
+pod/karsajobs-5bcbcd4b8f-f9tcw                           1/1     Running   3 (7h57m ago)   35h
+pod/karsajobs-ui-7dc9964944-sdcmk                        1/1     Running   0               117m
+pod/mongo-0                                              1/1     Running   3 (7h57m ago)   34h
+pod/prometheus-alertmanager-0                            1/1     Running   0               7h32m
+pod/prometheus-kube-state-metrics-56f5765bcf-z59kv       1/1     Running   0               7h32m
+pod/prometheus-prometheus-node-exporter-jpvtf            1/1     Running   0               7h32m
+pod/prometheus-prometheus-pushgateway-5b7b9f67bb-kjt9c   1/1     Running   0               7h32m
+pod/prometheus-server-7bbd49dd-gjh5b                     2/2     Running   0               7h32m
+
+NAME                                          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/grafana                               ClusterIP   10.98.35.44      <none>        80/TCP           37m
+service/grafana-ext                           NodePort    10.102.54.226    <none>        80:31476/TCP     30m
+service/karsajobs                             NodePort    10.98.125.49     <none>        8080:32222/TCP   35h
+service/karsajobs-ui                          NodePort    10.97.99.196     <none>        8000:31111/TCP   35h
+service/kubernetes                            ClusterIP   10.96.0.1        <none>        443/TCP          38h
+service/mongo                                 ClusterIP   None             <none>        27017/TCP        34h
+service/prometheus-alertmanager               ClusterIP   10.97.138.10     <none>        9093/TCP         7h32m
+service/prometheus-alertmanager-headless      ClusterIP   None             <none>        9093/TCP         7h32m
+service/prometheus-kube-state-metrics         ClusterIP   10.106.199.193   <none>        8080/TCP         7h32m
+service/prometheus-prometheus-node-exporter   ClusterIP   10.101.169.20    <none>        9100/TCP         7h32m
+service/prometheus-prometheus-pushgateway     ClusterIP   10.104.183.69    <none>        9091/TCP         7h32m
+service/prometheus-server                     ClusterIP   10.108.185.238   <none>        80/TCP           7h32m
+service/prometheus-server-ext                 NodePort    10.101.111.188   <none>        80:32131/TCP     7h23m
+
+NAME                                                 DESIRED   CURRENT   READY   UP-TO-DATE   AVAILABLE   NODE SELECTOR            AGE
+daemonset.apps/prometheus-prometheus-node-exporter   1         1         1       1            1           kubernetes.io/os=linux   7h32m
+
+NAME                                                READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/grafana                             1/1     1            1           37m
+deployment.apps/karsajobs                           1/1     1            1           35h
+deployment.apps/karsajobs-ui                        1/1     1            1           35h
+deployment.apps/prometheus-kube-state-metrics       1/1     1            1           7h32m
+deployment.apps/prometheus-prometheus-pushgateway   1/1     1            1           7h32m
+deployment.apps/prometheus-server                   1/1     1            1           7h32m
+
+NAME                                                           DESIRED   CURRENT   READY   AGE
+replicaset.apps/grafana-5c8b978cf7                             1         1         1       37m
+replicaset.apps/karsajobs-5bcbcd4b8f                           1         1         1       35h
+replicaset.apps/karsajobs-ui-5fbdcff4c                         0         0         0       11h
+replicaset.apps/karsajobs-ui-6b95758977                        0         0         0       8h
+replicaset.apps/karsajobs-ui-76759ffdf6                        0         0         0       4h48m
+replicaset.apps/karsajobs-ui-785675cd7                         0         0         0       35h
+replicaset.apps/karsajobs-ui-7dc9964944                        1         1         1       130m
+replicaset.apps/karsajobs-ui-85948f94cc                        0         0         0       124m
+replicaset.apps/karsajobs-ui-dd59645f8                         0         0         0       5h30m
+replicaset.apps/prometheus-kube-state-metrics-56f5765bcf       1         1         1       7h32m
+replicaset.apps/prometheus-prometheus-pushgateway-5b7b9f67bb   1         1         1       7h32m
+replicaset.apps/prometheus-server-7bbd49dd                     1         1         1       7h32m
+
+NAME                                       READY   AGE
+statefulset.apps/mongo                     1/1     34h
+statefulset.apps/prometheus-alertmanager   1/1     7h32m

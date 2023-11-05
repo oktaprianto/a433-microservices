@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+
+# Karsajobs deployment metadata
+metadata:
+  name: karsajobs
+  
+  # Karsajobs labels; backend tier
+  labels:
+    app: karsajobs
+    tier: backend
+
+# Karsajobs deployment specification
+spec:
+  
+  # Specifying selector to match it's labels
+  selector:
+    matchLabels:
+      app: karsajobs
+      tier: backend
+  
+  # Karsajobs pod template
+  template:
+    metadata:
+      
+      # Karsajobs pod labels; backend tier
+      labels:
+        app: karsajobs
+        tier: backend
+    
+    # Specifying Karsajobs pod's template specification
+    spec:
+      containers:
+        - name: karsajobs
+          
+          # Image from ghcr.io
+          image: ghcr.io/oktaprianto/karsajobs:latest
+          
+          # Specifying Karsajobs port
+          ports:
+            - containerPort: 8080
+          
+          # Configuring Karsajobs pod's environment
+          env:
+            
+            # App port 
+            - name: APP_PORT
+              value: "8080"
+            
+            # Mongo host env using Mongo pod's hostname
+            - name: MONGO_HOST
+              value: "mongo"
+
+            # Mongo user env using value from secret
+            - name: MONGO_USER
+              valueFrom:
+                secretKeyRef: 
+                  name: mongo-secret
+                  key: MONGO_ROOT_USERNAME
+            
+            # Mongo pass env using value from secret
+            - name: MONGO_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret
+                  key: MONGO_ROOT_PASSWORD

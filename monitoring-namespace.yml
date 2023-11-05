@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+
+# Monitoring namespace metadata
+metadata:
+  name: monitoring
+  labels:
+    app: monitoring

@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: PersistentVolume
+
+# Mongo persistent volume metadata
+metadata:
+  name: mongo-pv-volume
+  labels:
+    type: local
+
+# Mongo persistent volume specification
+spec:
+  storageClassName: manual
+  
+  # Defining PV capacity
+  capacity:
+    storage: 1Gi
+
+  # Specifying PV access mode
+  accessModes:
+    - ReadWriteOnce
+
+  # Specifying PV path in host node
+  hostPath:
+    path: "/mnt/data/mongo"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+
+# Mongo persistent volume claim metadata
+metadata:
+  name: mongo-pv-claim
+
+# Mongo persistent volume claim specification
+spec:
+  storageClassName: manual
+
+  # Specifying PVC access mode
+  accessModes:
+   - ReadWriteOnce
+
+  # Specifying PVC resource and request
+  resources:
+    requests:
+      storage: 1Gi  

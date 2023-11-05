@@ -1,0 +1,11 @@
+Image Registry:
+karsajobs   : https://github.com/users/oktaprianto/packages/container/package/karsajobs
+karsajobs-ui: https://github.com/users/oktaprianto/packages/container/package/karsajobs-ui
+
+Repository Branch
+karsajobs   : https://github.com/oktaprianto/a433-microservices/tree/karsajobs
+karsajobs-ui: https://github.com/oktaprianto/a433-microservices/tree/karsajobs-ui
+
+
+
+

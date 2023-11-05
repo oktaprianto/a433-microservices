@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Service
+
+# Mongo service metadata
+metadata:
+  name: mongo
+  
+  # Mongo labels; database tier
+  labels:
+    app: karsajobs
+    tier: database
+
+# Mongo service specification
+spec:
+
+  # Exposing mongo port
+  ports:
+    - port: 27017
+  
+  # Specifying selector to match it's labels
+  selector:
+    app: karsajobs
+    tier: database
+
+  # Specifying headless service
+  clusterIP: None

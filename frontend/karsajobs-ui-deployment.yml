@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+
+# Karsajobs-UI deployment metadata
+metadata:
+  name: karsajobs-ui
+
+  # Karsajobs-UI labels; frontend tier
+  labels:
+    app: karsajobs
+    tier: frontend
+
+# Karsajobs-UI deployment specification
+spec:
+
+  # Specifying selector to match it's label
+  selector:
+    matchLabels:
+      app: karsajobs
+      tier: frontend
+
+  # Karsajobs-UI pod template
+  template:
+    metadata:
+
+      # Karsajobs-UI pod labels; frontend tier
+      labels:
+        app: karsajobs
+        tier: frontend
+
+    # Specifying Karsajobs-UI pod's template specification
+    spec:
+      containers:
+        - name: karsajobs-ui
+
+          # Image from ghcr.io
+          image: ghcr.io/oktaprianto/karsajobs-ui:latest
+          
+          # Specifying Karsajobs-UI port
+          ports:
+            - containerPort: 8000
+             # Mendefinisikan env
+          env:
+            - name: VUE_APP_BACKEND
+              value: http://localhost:32222
