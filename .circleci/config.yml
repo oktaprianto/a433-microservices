@@ -29,13 +29,13 @@ jobs:
           version: 20.10.14
       - run:
           name: Login Docker Github
-          command: echo $PASSWORD_DOCKER_HUB | docker login -u $USERNAME_DOCKER_HUB --password-stdin ghcr.io
+          command: echo $CR_PAT | docker login ghcr.io -u oktaprianto --password-stdin ghcr.io
       - run:
           name: Build Docker Image
-          command: docker build -t ghcr.io/${DOCKER_REGISTRY_UI}:latest -f Dockerfile .
+          command: docker build -t ghcr.io/oktaprianto/karsajobs-ui:latest -f Dockerfile .
       - run:
           name: Push Docker Image
-          command: docker push ghcr.io/${DOCKER_REGISTRY_UI}:latest
+          command: docker push ghcr.io/oktaprianto/karsajobs-ui:latest
 
 
 # Invoke jobs via workflows
