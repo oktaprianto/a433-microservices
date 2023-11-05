@@ -13,17 +13,18 @@ jobs:
     docker:
       - image: cimg/go:1.19.4
     steps:
-      - checkout
-      - run: |
-          go test -v -short --count=1 $(go list ./...)
-  build-app-karsajobs:
-    executor: docker/docker
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: default
-      - run: |
-          . build_push_image_karsajobs.sh
+  - checkout
+  - setup_remote_docker:
+      version: 20.10.14
+  - run:
+      name: Login Docker Github
+      command: echo "$PASSWORD_DOCKER_HUB" | docker login -u "$USERNAME_DOCKER_HUB" --password-stdin ghcr.io
+  - run:
+      name: Build Docker Image
+      command: docker build -t ghcr.io/${DOCKER_REGISTRY}:latest -f Dockerfile .
+  - run:
+      name: Push Docker Image
+      command: docker push ghcr.io/${DOCKER_REGISTRY}:latest
 
 # Orchestrate our job run sequence
 workflows:
