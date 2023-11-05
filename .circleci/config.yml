@@ -1,70 +1,38 @@
-See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
-
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
+orbs:
+  docker: circleci/docker@2.2.0
+# Define the jobs we want to run for this project
 jobs:
-  # Lint jobs
   lint-dockerfile:
-    docker:
-      - image: cimg/base:2022.06
+    executor: docker/hadolint
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
-      - run:
-          name: Lint Dockerfile
-          command: docker pull ghcr.io/hadolint/hadolint < Dockerfile
-  
-  # Test jobs
+      - docker/hadolint:
+          dockerfiles: Dockerfile
   test-app:
     docker:
-      - image: cimg/go:1.17
+      - image: cimg/go:1.19.4
     steps:
       - checkout
-      - run:
-          name: Install Dependencies
-          command: go mod download
-      - run:
-          name: Run tests
-          command: |
-            set CGO_ENABLED=0 # Setting go withoug gcc
-            go test -v -short --count=1 $(go list ./...)
-
+      - run: |
+          go test -v -short --count=1 $(go list ./...)
   build-app-karsajobs:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: cimg/base:2022.06
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    executor: docker/docker
     steps:
       - checkout
       - setup_remote_docker:
-          version: 20.10.14
-      - run:
-          name: Login Docker Github
-          command: echo $CR_PAT | docker login -u oktaprianto --password-stdin ghcr.io
-      - run:
-          name: Build Docker Image
-          command: docker build -t ghcr.io/oktaprianto/karsajobs:latest -f Dockerfile .
-      - run:
-          name: Push Docker Image
-          command: docker push ghcr.io/oktaprianto/karsajobs:latest
+          version: default
+      - run: |
+          . build_push_image_karsajobs.sh
 
-
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+# Orchestrate our job run sequence
 workflows:
-  lint-test-build-karsajobs: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  lint-dockerfile:
     jobs:
       - lint-dockerfile
-      - test-app:
-          name: test-app
-          requires:
-            - lint-dockerfile
-      - build-app-karsajobs:
-          name: build-app-karsajobs
-          requires:
-            - test-app
+  test-app:
+    jobs:
+      - test-app
+  build-app-karsajobs:
+    jobs:
+      - build-app-karsajobs
