@@ -42,4 +42,4 @@ spec:
              # Mendefinisikan env
           env:
             - name: VUE_APP_BACKEND
-              value: http://localhost:32222
+              value: http://192.168.49.2:32222
